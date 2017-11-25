@@ -151,10 +151,10 @@ export = (options: Options = {}) => {
             exprContextCritical: false,
             rules: [
                 {
-                    test: /\.tsx$/,
+                    test: /\.tsx?$/,
                     use: (() => {
                         return [
-                            ...(options.hmr ? [{ loader: 'react-hot-loader' }] : []),
+                            ...(options.hmr ? [{ loader: 'react-hot-loader/webpack' }] : []),
                             tsLoader,
                         ]
                     })(),
@@ -182,7 +182,7 @@ export = (options: Options = {}) => {
             if (!options.test) {
                 const HtmlWebpackPlugin = require('html-webpack-plugin');
                 result.push(new HtmlWebpackPlugin({
-                    template: './src/index.ejs',
+                    template: './example/index.ejs',
                     minify: false,
                     excludeChunks: [],
                     config: options,
@@ -258,6 +258,9 @@ export = (options: Options = {}) => {
             });
     } else {
         config.entry = pick(['app'], config.entry);
+        if (options.hmr) {
+            config.entry = ['react-hot-loader/patch', config.entry.app];
+        }
         if (options.test) {
             config.entry = false;
         }
