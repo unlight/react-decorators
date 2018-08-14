@@ -2,15 +2,15 @@ import { Component } from 'react';
 
 export function State() {
 
-    return function StateDecorator(prototype: Component, name: string | symbol, descriptor?: PropertyDescriptor) {
+    return function StateDecorator(prototype: Component<any, any>, name: string | symbol, descriptor?: PropertyDescriptor) {
         const originalConstructor = prototype.constructor;
         prototype.constructor = function() {
             debugger;
             return originalConstructor.apply(this, arguments);
         };
-        const originalComponentDidMount = prototype.componentDidMount;
+        const originalComponentDidMount = prototype.componentWillMount;
         let isMounted = false;
-        prototype.componentDidMount = function() {
+        prototype.componentWillMount = function() {
             isMounted = true;
             return originalComponentDidMount && originalComponentDidMount.apply(this, arguments);
         }

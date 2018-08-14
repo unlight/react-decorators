@@ -17,6 +17,7 @@ export class Counter extends React.Component<CounterProps, CounterState> {
 
     constructor(props: CounterProps, context) {
         super(props, context);
+        this.setState({ value: 2 });
     }
 
     clickHandler() {
@@ -25,7 +26,7 @@ export class Counter extends React.Component<CounterProps, CounterState> {
     }
 
     render() {
-        return <span onClick={(e) => this.clickHandler()}>
+        return <span onClick={() => this.clickHandler()}>
             [{this.value}]
             [{this.state && this.state.value}]
         </span>;
